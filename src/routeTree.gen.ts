@@ -9,38 +9,141 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]xml'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PerfilSlugRouteImport } from './routes/perfil.$slug'
+import { Route as MateriaSlugRouteImport } from './routes/materia.$slug'
+import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSitemapDotxmlRoute = NewsSitemapDotxmlRouteImport.update({
+  id: '/news-sitemap.xml',
+  path: '/news-sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PerfilSlugRoute = PerfilSlugRouteImport.update({
+  id: '/perfil/$slug',
+  path: '/perfil/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MateriaSlugRoute = MateriaSlugRouteImport.update({
+  id: '/materia/$slug',
+  path: '/materia/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
+  id: '/categoria/$slug',
+  path: '/categoria/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/categoria/$slug': typeof CategoriaSlugRoute
+  '/materia/$slug': typeof MateriaSlugRoute
+  '/perfil/$slug': typeof PerfilSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/categoria/$slug': typeof CategoriaSlugRoute
+  '/materia/$slug': typeof MateriaSlugRoute
+  '/perfil/$slug': typeof PerfilSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/categoria/$slug': typeof CategoriaSlugRoute
+  '/materia/$slug': typeof MateriaSlugRoute
+  '/perfil/$slug': typeof PerfilSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/news-sitemap.xml'
+    | '/sitemap.xml'
+    | '/categoria/$slug'
+    | '/materia/$slug'
+    | '/perfil/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/news-sitemap.xml'
+    | '/sitemap.xml'
+    | '/categoria/$slug'
+    | '/materia/$slug'
+    | '/perfil/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/news-sitemap.xml'
+    | '/sitemap.xml'
+    | '/categoria/$slug'
+    | '/materia/$slug'
+    | '/perfil/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  NewsSitemapDotxmlRoute: typeof NewsSitemapDotxmlRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  CategoriaSlugRoute: typeof CategoriaSlugRoute
+  MateriaSlugRoute: typeof MateriaSlugRoute
+  PerfilSlugRoute: typeof PerfilSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news-sitemap.xml': {
+      id: '/news-sitemap.xml'
+      path: '/news-sitemap.xml'
+      fullPath: '/news-sitemap.xml'
+      preLoaderRoute: typeof NewsSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +151,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/perfil/$slug': {
+      id: '/perfil/$slug'
+      path: '/perfil/$slug'
+      fullPath: '/perfil/$slug'
+      preLoaderRoute: typeof PerfilSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materia/$slug': {
+      id: '/materia/$slug'
+      path: '/materia/$slug'
+      fullPath: '/materia/$slug'
+      preLoaderRoute: typeof MateriaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categoria/$slug': {
+      id: '/categoria/$slug'
+      path: '/categoria/$slug'
+      fullPath: '/categoria/$slug'
+      preLoaderRoute: typeof CategoriaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  NewsSitemapDotxmlRoute: NewsSitemapDotxmlRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  CategoriaSlugRoute: CategoriaSlugRoute,
+  MateriaSlugRoute: MateriaSlugRoute,
+  PerfilSlugRoute: PerfilSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
