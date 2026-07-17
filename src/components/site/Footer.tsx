@@ -45,15 +45,11 @@ export function Footer() {
           <div key={col.title}>
             <h4 className="text-sm font-bold uppercase tracking-widest text-white/90">{col.title}</h4>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
-              {col.links.map((l) =>
-                l.href.startsWith("#") ? (
-                  <li key={l.href}><a href={l.href} className="hover:text-white">{l.label}</a></li>
-                ) : (
-                  <li key={l.href}>
-                    <Link to={l.href} className="hover:text-white">{l.label}</Link>
-                  </li>
-                ),
-              )}
+              {col.links.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="hover:text-white">{l.label}</a>
+                </li>
+              ))}
             </ul>
           </div>
         ))}

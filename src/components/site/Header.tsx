@@ -35,13 +35,13 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            to="/busca"
+          <a
+            href="/busca"
             className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-ink-soft hover:text-primary hover:border-primary transition"
             aria-label="Buscar"
           >
             <Search size={14} /> Buscar
-          </Link>
+          </a>
           <a
             href="#newsletter"
             className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-primary-foreground hover:opacity-90 transition"
