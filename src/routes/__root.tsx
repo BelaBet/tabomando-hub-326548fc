@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Tá Sabendo? — A fofoca que nunca dorme" },
+      { name: "description", content: "Notícias, bastidores e curiosidades sobre famosos, influenciadores, empresas e tecnologia. Apurado com carinho — e verificado." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Tá Sabendo? — A fofoca que nunca dorme" },
+      { property: "og:description", content: "Notícias, bastidores e curiosidades sobre famosos, influenciadores, empresas e tecnologia. Apurado com carinho — e verificado." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Tá Sabendo? — A fofoca que nunca dorme" },
+      { name: "twitter:description", content: "Notícias, bastidores e curiosidades sobre famosos, influenciadores, empresas e tecnologia. Apurado com carinho — e verificado." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ba5bbf82-8272-4523-9474-bc2f9932ff08/id-preview-2f16a431--f1f76227-4d1f-4049-8e24-f822bd7e81b6.lovable.app-1784309655066.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ba5bbf82-8272-4523-9474-bc2f9932ff08/id-preview-2f16a431--f1f76227-4d1f-4049-8e24-f822bd7e81b6.lovable.app-1784309655066.png" },
     ],
     links: [
       {

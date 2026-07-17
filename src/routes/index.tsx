@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Tá Sabendo? — A fofoca que nunca dorme" },
       {
         property: "og:description",
-        content: "Portal editorial de notícias, fofocas e curiosidades verificadas.",
+        content: "Notícias, bastidores e curiosidades sobre famosos, influenciadores, empresas e tecnologia. Apurado com carinho — e verificado.",
       },
       { property: "og:url", content: "/" },
       { property: "og:type", content: "website" },
