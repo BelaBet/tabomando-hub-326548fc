@@ -67,7 +67,7 @@ function CategoriaPage() {
           <section className="container-editorial mt-8 grid gap-8 lg:grid-cols-[1fr_1fr]">
             {primeira && <ArticleCard m={primeira} variant="hero" />}
             <div className="grid gap-6 sm:grid-cols-2">
-              {resto.map((m) => <ArticleCard key={m.slug} m={m} />)}
+              {resto.map((m: import("@/lib/demo-data").Materia) => <ArticleCard key={m.slug} m={m} />)}
             </div>
           </section>
         )}

@@ -8,6 +8,8 @@ import {
   getAutor,
   materias,
   formatarData,
+  type Materia,
+  type ClassificacaoEditorial,
 } from "@/lib/demo-data";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles, Share2, ChevronRight } from "lucide-react";
 
@@ -102,11 +104,12 @@ const iconClassif = {
 } as const;
 
 function MateriaPage() {
-  const { materia: m } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { materia: Materia };
+  const m = data.materia;
   const cat = getCategoria(m.categoria);
   const autor = getAutor(m.autor);
   const relacionadas = materias.filter((x) => x.categoria === m.categoria && x.slug !== m.slug).slice(0, 3);
-  const Icon = iconClassif[m.classificacao];
+  const Icon = iconClassif[m.classificacao as ClassificacaoEditorial];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -193,7 +196,7 @@ function MateriaPage() {
             </aside>
 
             <div className="prose-editorial mt-8 space-y-5 text-lg leading-relaxed text-ink">
-              {m.conteudo.map((p, i) => (
+              {m.conteudo.map((p: string, i: number) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -217,7 +220,7 @@ function MateriaPage() {
             <section className="mt-8">
               <h2 className="font-display text-xl font-black">Fontes consultadas</h2>
               <ul className="mt-2 list-disc pl-5 text-sm text-ink-soft">
-                {m.fontes.map((f, i) => (
+                {m.fontes.map((f: { titulo: string; url?: string }, i: number) => (
                   <li key={i}>{f.url ? <a href={f.url} className="text-primary hover:underline">{f.titulo}</a> : f.titulo}</li>
                 ))}
               </ul>
