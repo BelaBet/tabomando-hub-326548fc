@@ -1,5 +1,5 @@
 import { Logo } from "./Logo";
-import { Link } from "@tanstack/react-router";
+
 
 const cols = [
   {
