@@ -28,7 +28,7 @@ export function useAdminAuth(): AdminAuthState {
       if (error || !data) {
         setState({ status: "signed-in-no-role", session });
       } else {
-        setState({ status: "admin", session, role: data.role });
+        setState({ status: "admin", session, role: data.role as "admin" | "editor" });
       }
     }
 

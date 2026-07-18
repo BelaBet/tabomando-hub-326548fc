@@ -1,10 +1,23 @@
 import { supabase } from "./supabase";
-import type {
-  CategoriaRow,
-  AutorRow,
-  PerfilRow,
-  MateriaRow,
-} from "./database.types";
+import type { Database } from "@/integrations/supabase/types";
+
+type CategoriaRow = Database["public"]["Tables"]["categorias"]["Row"];
+type AutorRow = Database["public"]["Tables"]["autores"]["Row"];
+type PerfilRow = Database["public"]["Tables"]["perfis"]["Row"];
+type MateriaRow = Database["public"]["Tables"]["materias"]["Row"];
+
+export interface FonteItem {
+  titulo: string;
+  url?: string;
+}
+
+export interface ResumoRapido {
+  quem: string;
+  oQue: string;
+  quando: string;
+  situacao: string;
+  fontePrincipal: string;
+}
 
 // Keep the field names the existing UI components already expect
 // (camelCase, matching the old demo-data.ts shape) so components
@@ -45,7 +58,7 @@ export interface Materia {
   manchete?: boolean;
   visualizacoes: number;
   fontes: { titulo: string; url?: string }[];
-  resumoRapido: MateriaRow["resumo_rapido"];
+  resumoRapido: ResumoRapido | null;
   taSabendoDisso?: string;
   tags: string[];
 }
@@ -108,8 +121,8 @@ const mapMateria = (
   destaque: r.destaque,
   manchete: r.manchete,
   visualizacoes: r.visualizacoes,
-  fontes: r.fontes,
-  resumoRapido: r.resumo_rapido,
+  fontes: (r.fontes as unknown as FonteItem[]) ?? [],
+  resumoRapido: r.resumo_rapido as unknown as ResumoRapido | null,
   taSabendoDisso: r.ta_sabendo_disso ?? undefined,
   tags: r.tags,
 });

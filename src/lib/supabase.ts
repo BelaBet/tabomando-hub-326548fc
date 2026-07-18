@@ -1,8 +1,4 @@
-import { supabase as typedSupabase } from "@/integrations/supabase/client";
-import type { SupabaseClient } from "@supabase/supabase-js";
-
-// The generated Database types don't include the project tables yet
-// (categorias, autores, materias, perfis, platform_roles). Until a
-// migration adds them and regenerates the types, expose an untyped
-// client so the existing data-access code type-checks.
-export const supabase = typedSupabase as unknown as SupabaseClient;
+// Re-exports Lovable Cloud's own generated Supabase client.
+// It correctly handles both the browser (import.meta.env) and SSR
+// (process.env) environments, which our own client creation didn't.
+export { supabase } from "@/integrations/supabase/client";
