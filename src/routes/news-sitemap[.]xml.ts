@@ -10,11 +10,17 @@ export const Route = createFileRoute("/news-sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const materias = await fetchMaterias();
+        let materias: Awaited<ReturnType<typeof fetchMaterias>> = [];
+        try {
+          materias = await fetchMaterias();
+        } catch (e) {
+          console.error("news-sitemap: failed to fetch matérias", e);
+        }
         const now = Date.now();
         const recentes = materias.filter(
-          (m) => (now - new Date(m.publicadoEm).getTime()) / 86400000 <= MAX_AGE_DAYS * 30, // demo: amplia janela
+          (m) => (now - new Date(m.publicadoEm).getTime()) / 86400000 <= MAX_AGE_DAYS * 30,
         );
+
 
         const urls = recentes.map((m) =>
           [
