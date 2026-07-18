@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]xml'
 import { Route as BuscaRouteImport } from './routes/busca'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PerfilSlugRouteImport } from './routes/perfil.$slug'
 import { Route as MateriaSlugRouteImport } from './routes/materia.$slug'
 import { Route as InstitucionalPageRouteImport } from './routes/institucional.$page'
@@ -37,14 +37,14 @@ const BuscaRoute = BuscaRouteImport.update({
   path: '/busca',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PerfilSlugRoute = PerfilSlugRouteImport.update({
@@ -68,24 +68,23 @@ const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMateriasNovaRoute = AdminMateriasNovaRouteImport.update({
-  id: '/materias/nova',
-  path: '/materias/nova',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/materias/nova',
+  path: '/admin/materias/nova',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMateriasSlugRoute = AdminMateriasSlugRouteImport.update({
-  id: '/materias/$slug',
-  path: '/materias/$slug',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/materias/$slug',
+  path: '/admin/materias/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/busca': typeof BuscaRoute
   '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -94,12 +93,12 @@ export interface FileRoutesByFullPath {
   '/institucional/$page': typeof InstitucionalPageRoute
   '/materia/$slug': typeof MateriaSlugRoute
   '/perfil/$slug': typeof PerfilSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/admin/materias/$slug': typeof AdminMateriasSlugRoute
   '/admin/materias/nova': typeof AdminMateriasNovaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/busca': typeof BuscaRoute
   '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -108,13 +107,13 @@ export interface FileRoutesByTo {
   '/institucional/$page': typeof InstitucionalPageRoute
   '/materia/$slug': typeof MateriaSlugRoute
   '/perfil/$slug': typeof PerfilSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/admin/materias/$slug': typeof AdminMateriasSlugRoute
   '/admin/materias/nova': typeof AdminMateriasNovaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/busca': typeof BuscaRoute
   '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -123,6 +122,7 @@ export interface FileRoutesById {
   '/institucional/$page': typeof InstitucionalPageRoute
   '/materia/$slug': typeof MateriaSlugRoute
   '/perfil/$slug': typeof PerfilSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/admin/materias/$slug': typeof AdminMateriasSlugRoute
   '/admin/materias/nova': typeof AdminMateriasNovaRoute
 }
@@ -130,7 +130,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/busca'
     | '/news-sitemap.xml'
     | '/sitemap.xml'
@@ -139,12 +138,12 @@ export interface FileRouteTypes {
     | '/institucional/$page'
     | '/materia/$slug'
     | '/perfil/$slug'
+    | '/admin/'
     | '/admin/materias/$slug'
     | '/admin/materias/nova'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/busca'
     | '/news-sitemap.xml'
     | '/sitemap.xml'
@@ -153,12 +152,12 @@ export interface FileRouteTypes {
     | '/institucional/$page'
     | '/materia/$slug'
     | '/perfil/$slug'
+    | '/admin'
     | '/admin/materias/$slug'
     | '/admin/materias/nova'
   id:
     | '__root__'
     | '/'
-    | '/admin'
     | '/busca'
     | '/news-sitemap.xml'
     | '/sitemap.xml'
@@ -167,20 +166,24 @@ export interface FileRouteTypes {
     | '/institucional/$page'
     | '/materia/$slug'
     | '/perfil/$slug'
+    | '/admin/'
     | '/admin/materias/$slug'
     | '/admin/materias/nova'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
   BuscaRoute: typeof BuscaRoute
   NewsSitemapDotxmlRoute: typeof NewsSitemapDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
   InstitucionalPageRoute: typeof InstitucionalPageRoute
   MateriaSlugRoute: typeof MateriaSlugRoute
   PerfilSlugRoute: typeof PerfilSlugRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminMateriasSlugRoute: typeof AdminMateriasSlugRoute
+  AdminMateriasNovaRoute: typeof AdminMateriasNovaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -206,18 +209,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuscaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/perfil/$slug': {
@@ -250,52 +253,41 @@ declare module '@tanstack/react-router' {
     }
     '/admin/login': {
       id: '/admin/login'
-      path: '/login'
+      path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/materias/nova': {
       id: '/admin/materias/nova'
-      path: '/materias/nova'
+      path: '/admin/materias/nova'
       fullPath: '/admin/materias/nova'
       preLoaderRoute: typeof AdminMateriasNovaRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/materias/$slug': {
       id: '/admin/materias/$slug'
-      path: '/materias/$slug'
+      path: '/admin/materias/$slug'
       fullPath: '/admin/materias/$slug'
       preLoaderRoute: typeof AdminMateriasSlugRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface AdminRouteChildren {
-  AdminLoginRoute: typeof AdminLoginRoute
-  AdminMateriasSlugRoute: typeof AdminMateriasSlugRoute
-  AdminMateriasNovaRoute: typeof AdminMateriasNovaRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminLoginRoute: AdminLoginRoute,
-  AdminMateriasSlugRoute: AdminMateriasSlugRoute,
-  AdminMateriasNovaRoute: AdminMateriasNovaRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
   BuscaRoute: BuscaRoute,
   NewsSitemapDotxmlRoute: NewsSitemapDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminLoginRoute: AdminLoginRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
   InstitucionalPageRoute: InstitucionalPageRoute,
   MateriaSlugRoute: MateriaSlugRoute,
   PerfilSlugRoute: PerfilSlugRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminMateriasSlugRoute: AdminMateriasSlugRoute,
+  AdminMateriasNovaRoute: AdminMateriasNovaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
