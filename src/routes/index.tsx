@@ -17,8 +17,13 @@ import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles } from "lucide-react"
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const [materias, categorias] = await Promise.all([fetchMaterias(), fetchCategorias()]);
-    return { materias, categorias };
+    try {
+      const [materias, categorias] = await Promise.all([fetchMaterias(), fetchCategorias()]);
+      return { materias, categorias };
+    } catch (err) {
+      console.error("[/] loader failed, returning empty data:", err);
+      return { materias: [], categorias: [] };
+    }
   },
   head: () => ({
     meta: [
