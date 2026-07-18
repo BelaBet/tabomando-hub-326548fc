@@ -8,7 +8,7 @@ import {
   LayoutDashboard, FileText, Users, Tag, LogOut, Trash2, Pencil,
 } from "lucide-react";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
       { title: "Painel Editorial — Tá Sabendo?" },
