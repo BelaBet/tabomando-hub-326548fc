@@ -24,6 +24,7 @@ const cols = [
       { label: "Anuncie", href: "/institucional/anuncie" },
       { label: "Trabalhe Conosco", href: "/institucional/carreiras" },
       { label: "Newsletter", href: "#newsletter" },
+      { label: "Painel Editorial", href: "/admin/login" },
     ],
   },
 ];
