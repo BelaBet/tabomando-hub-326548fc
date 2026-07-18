@@ -110,7 +110,7 @@ function MateriaPage() {
   const cat = getCategoria(categorias, m.categoria);
   const autor = getAutor(autores, m.autor);
   const relacionadas = materias.filter((x: any) => x.categoria === m.categoria && x.slug !== m.slug).slice(0, 3);
-  const Icon = iconClassif[m.classificacao];
+  const Icon = iconClassif[m.classificacao as keyof typeof iconClassif];
 
   return (
     <div className="min-h-screen flex flex-col">
