@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { materias } from "@/lib/demo-data";
+import { fetchMaterias } from "@/lib/data";
 
 // TODO: replace with your project URL once a project name or custom domain is set.
 const BASE_URL = "";
@@ -10,6 +10,7 @@ export const Route = createFileRoute("/news-sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const materias = await fetchMaterias();
         const now = Date.now();
         const recentes = materias.filter(
           (m) => (now - new Date(m.publicadoEm).getTime()) / 86400000 <= MAX_AGE_DAYS * 30, // demo: amplia janela

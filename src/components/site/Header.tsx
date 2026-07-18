@@ -2,10 +2,12 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, Search, Mail, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { categorias } from "@/lib/demo-data";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategorias } from "@/lib/data";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { data: categorias = [] } = useQuery({ queryKey: ["categorias"], queryFn: fetchCategorias });
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
       <div className="container-editorial flex h-16 items-center justify-between gap-4">

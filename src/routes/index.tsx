@@ -5,16 +5,21 @@ import { ArticleCard } from "@/components/site/ArticleCard";
 import { Newsletter } from "@/components/site/Newsletter";
 import { TrendingList } from "@/components/site/TrendingList";
 import {
-  materias,
+  fetchMaterias,
+  fetchCategorias,
+  getCategoria,
   ultimasMaterias,
   maisLidas,
-  getCategoria,
   formatarData,
-} from "@/lib/demo-data";
+} from "@/lib/data";
 import { Link } from "@tanstack/react-router";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const [materias, categorias] = await Promise.all([fetchMaterias(), fetchCategorias()]);
+    return { materias, categorias };
+  },
   head: () => ({
     meta: [
       { title: "Tá Sabendo? — A fofoca que nunca dorme" },
@@ -49,10 +54,25 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { materias, categorias } = Route.useLoaderData();
+
+  if (materias.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container-editorial py-24 text-center text-ink-soft">
+          Ainda não há matérias publicadas. Publique a primeira pelo{" "}
+          <Link to="/admin" className="text-primary font-semibold hover:underline">painel editorial</Link>.
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   const manchete = materias.find((m) => m.manchete) ?? materias[0];
   const destaques = materias.filter((m) => m.destaque && m.slug !== manchete.slug).slice(0, 3);
-  const ultimas = ultimasMaterias(8);
-  const top = maisLidas(5);
+  const ultimas = ultimasMaterias(materias, 8);
+  const top = maisLidas(materias, 5);
   const curiosidades = materias.filter((m) => m.categoria === "curiosidades");
   const fatoOuRumor = materias.filter((m) => ["Confirmado", "Relatado", "Rumor"].includes(m.classificacao)).slice(0, 3);
 
@@ -85,7 +105,7 @@ function Home() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-                        {getCategoria(m.categoria)?.nome}
+                        {getCategoria(categorias, m.categoria)?.nome}
                       </span>
                       {m.atualizadoEm && (
                         <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--brand-red-deep)" }}>
@@ -119,53 +139,57 @@ function Home() {
           </aside>
         </section>
 
-        <section className="container-editorial mt-16">
-          <SectionTitle title="Tá sabendo disso?" subtitle="Curiosidades rápidas e verificadas" icon={<Sparkles size={18} />} />
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {curiosidades.map((c) => (
-              <Link
-                key={c.slug}
-                to="/materia/$slug"
-                params={{ slug: c.slug }}
-                className="group relative overflow-hidden rounded-xl p-6 text-white"
-                style={{ background: "var(--gradient-red)" }}
-              >
-                <span className="highlight-chip">Curiosidade</span>
-                <h3 className="mt-3 text-xl font-black leading-tight">{c.titulo}</h3>
-                <p className="mt-2 text-sm text-white/85 line-clamp-3">{c.taSabendoDisso ?? c.resumo}</p>
-                <span className="mt-4 inline-block text-xs font-bold uppercase tracking-widest text-white/90 group-hover:underline">
-                  Ler mais →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="container-editorial mt-16">
-          <SectionTitle title="Fato ou Rumor" subtitle="A gente separa o que é real do que é papo furado" />
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {fatoOuRumor.map((m) => {
-              const Icon = m.classificacao === "Confirmado" ? CheckCircle2 : m.classificacao === "Rumor" ? AlertTriangle : HelpCircle;
-              const color = m.classificacao === "Confirmado" ? "oklch(0.65 0.17 155)" : m.classificacao === "Rumor" ? "var(--brand-red)" : "oklch(0.75 0.15 80)";
-              return (
+        {curiosidades.length > 0 && (
+          <section className="container-editorial mt-16">
+            <SectionTitle title="Tá sabendo disso?" subtitle="Curiosidades rápidas e verificadas" icon={<Sparkles size={18} />} />
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {curiosidades.map((c) => (
                 <Link
-                  key={m.slug}
+                  key={c.slug}
                   to="/materia/$slug"
-                  params={{ slug: m.slug }}
-                  className="rounded-xl border-2 bg-surface p-5 hover:shadow-editorial transition"
-                  style={{ borderColor: color }}
+                  params={{ slug: c.slug }}
+                  className="group relative overflow-hidden rounded-xl p-6 text-white"
+                  style={{ background: "var(--gradient-red)" }}
                 >
-                  <div className="flex items-center gap-2 text-sm font-bold" style={{ color }}>
-                    <Icon size={16} /> {m.classificacao}
-                  </div>
-                  <h3 className="mt-2 text-lg font-bold text-ink leading-snug line-clamp-3">{m.titulo}</h3>
-                  <p className="mt-2 text-sm text-ink-soft line-clamp-3">{m.resumo}</p>
-                  <div className="mt-3 text-xs text-ink-soft">{formatarData(m.publicadoEm)}</div>
+                  <span className="highlight-chip">Curiosidade</span>
+                  <h3 className="mt-3 text-xl font-black leading-tight">{c.titulo}</h3>
+                  <p className="mt-2 text-sm text-white/85 line-clamp-3">{c.taSabendoDisso ?? c.resumo}</p>
+                  <span className="mt-4 inline-block text-xs font-bold uppercase tracking-widest text-white/90 group-hover:underline">
+                    Ler mais →
+                  </span>
                 </Link>
-              );
-            })}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {fatoOuRumor.length > 0 && (
+          <section className="container-editorial mt-16">
+            <SectionTitle title="Fato ou Rumor" subtitle="A gente separa o que é real do que é papo furado" />
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {fatoOuRumor.map((m) => {
+                const Icon = m.classificacao === "Confirmado" ? CheckCircle2 : m.classificacao === "Rumor" ? AlertTriangle : HelpCircle;
+                const color = m.classificacao === "Confirmado" ? "oklch(0.65 0.17 155)" : m.classificacao === "Rumor" ? "var(--brand-red)" : "oklch(0.75 0.15 80)";
+                return (
+                  <Link
+                    key={m.slug}
+                    to="/materia/$slug"
+                    params={{ slug: m.slug }}
+                    className="rounded-xl border-2 bg-surface p-5 hover:shadow-editorial transition"
+                    style={{ borderColor: color }}
+                  >
+                    <div className="flex items-center gap-2 text-sm font-bold" style={{ color }}>
+                      <Icon size={16} /> {m.classificacao}
+                    </div>
+                    <h3 className="mt-2 text-lg font-bold text-ink leading-snug line-clamp-3">{m.titulo}</h3>
+                    <p className="mt-2 text-sm text-ink-soft line-clamp-3">{m.resumo}</p>
+                    <div className="mt-3 text-xs text-ink-soft">{formatarData(m.publicadoEm)}</div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         <section className="container-editorial mt-16">
           <Newsletter />

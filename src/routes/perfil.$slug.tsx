@@ -2,14 +2,18 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ArticleCard } from "@/components/site/ArticleCard";
-import { getPerfil, getAutor, materias } from "@/lib/demo-data";
+import { fetchPerfilBySlug, fetchAutores, fetchMaterias, getAutor } from "@/lib/data";
 
 export const Route = createFileRoute("/perfil/$slug")({
-  loader: ({ params }) => {
-    const perfil = getPerfil(params.slug);
-    const autor = getAutor(params.slug);
+  loader: async ({ params }) => {
+    const [perfil, autores, materias] = await Promise.all([
+      fetchPerfilBySlug(params.slug),
+      fetchAutores(),
+      fetchMaterias(),
+    ]);
+    const autor = getAutor(autores, params.slug);
     if (!perfil && !autor) throw notFound();
-    return { perfil, autor };
+    return { perfil, autor, materias };
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Perfil" }, { name: "robots", content: "noindex" }] };
@@ -55,7 +59,7 @@ export const Route = createFileRoute("/perfil/$slug")({
 });
 
 function PerfilPage() {
-  const { perfil, autor } = Route.useLoaderData();
+  const { perfil, autor, materias } = Route.useLoaderData();
   const nome = perfil?.nome ?? autor!.nome;
   const desc = perfil?.descricao ?? autor!.bio;
   const tipo = perfil?.tipo ?? autor?.cargo ?? "Autor";
@@ -74,7 +78,7 @@ function PerfilPage() {
               <img src={imagem} alt={nome} className="h-32 w-32 rounded-full object-cover border-4 border-primary" />
             ) : (
               <div className="h-32 w-32 rounded-full bg-primary grid place-items-center text-4xl font-black">
-                {nome.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
+                {nome.split(" ").map((n) => n[0]).slice(0, 2).join("")}
               </div>
             )}
             <div className="flex-1 text-center md:text-left">
@@ -83,7 +87,7 @@ function PerfilPage() {
               <p className="mt-2 max-w-2xl text-white/80">{desc}</p>
               {perfil?.seguidores && (
                 <p className="mt-2 text-sm text-white/70">
-                  <span className="font-bold text-white">{perfil.seguidores}</span> seguidores (demo)
+                  <span className="font-bold text-white">{perfil.seguidores}</span> seguidores
                 </p>
               )}
             </div>
@@ -94,7 +98,7 @@ function PerfilPage() {
           <section className="container-editorial mt-10">
             <h2 className="font-display text-2xl font-black border-b-2 border-ink pb-2">Fatos rápidos</h2>
             <ul className="mt-4 grid gap-3 md:grid-cols-3">
-              {perfil.fatos.map((f: string, i: number) => (
+              {perfil.fatos.map((f, i) => (
                 <li key={i} className="rounded-xl border border-border bg-surface p-4 text-sm text-ink">
                   <span className="text-primary font-black">#{i + 1}</span> {f}
                 </li>
@@ -112,7 +116,7 @@ function PerfilPage() {
               {rel.map((m) => <ArticleCard key={m.slug} m={m} />)}
             </div>
           ) : (
-            <p className="mt-4 text-ink-soft">Sem matérias relacionadas no momento (demo).</p>
+            <p className="mt-4 text-ink-soft">Sem matérias relacionadas no momento.</p>
           )}
         </section>
       </main>

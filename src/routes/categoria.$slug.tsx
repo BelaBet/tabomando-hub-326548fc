@@ -2,14 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ArticleCard } from "@/components/site/ArticleCard";
-import { getCategoria, materiasPorCategoria } from "@/lib/demo-data";
+import { fetchCategorias, fetchMaterias, getCategoria, materiasPorCategoria } from "@/lib/data";
 import { ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/categoria/$slug")({
-  loader: ({ params }) => {
-    const cat = getCategoria(params.slug);
+  loader: async ({ params }) => {
+    const [categorias, materias] = await Promise.all([fetchCategorias(), fetchMaterias()]);
+    const cat = getCategoria(categorias, params.slug);
     if (!cat) throw notFound();
-    return { cat, lista: materiasPorCategoria(params.slug) };
+    return { cat, lista: materiasPorCategoria(materias, params.slug) };
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Categoria" }, { name: "robots", content: "noindex" }] };
@@ -61,13 +62,13 @@ function CategoriaPage() {
 
         {lista.length === 0 ? (
           <div className="container-editorial py-16 text-center text-ink-soft">
-            Ainda não temos matérias nesta editoria (conteúdo de demonstração).
+            Ainda não temos matérias publicadas nesta editoria.
           </div>
         ) : (
           <section className="container-editorial mt-8 grid gap-8 lg:grid-cols-[1fr_1fr]">
             {primeira && <ArticleCard m={primeira} variant="hero" />}
             <div className="grid gap-6 sm:grid-cols-2">
-              {resto.map((m: import("@/lib/demo-data").Materia) => <ArticleCard key={m.slug} m={m} />)}
+              {resto.map((m) => <ArticleCard key={m.slug} m={m} />)}
             </div>
           </section>
         )}

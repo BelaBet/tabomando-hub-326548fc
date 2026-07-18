@@ -3,29 +3,34 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ArticleCard } from "@/components/site/ArticleCard";
 import {
-  getMateria,
+  fetchMateriaBySlug,
+  fetchMaterias,
+  fetchCategorias,
+  fetchAutores,
   getCategoria,
   getAutor,
-  materias,
   formatarData,
-  type Materia,
-  type ClassificacaoEditorial,
-} from "@/lib/demo-data";
+} from "@/lib/data";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles, Share2, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/materia/$slug")({
-  loader: ({ params }) => {
-    const m = getMateria(params.slug);
+  loader: async ({ params }) => {
+    const [m, materias, categorias, autores] = await Promise.all([
+      fetchMateriaBySlug(params.slug),
+      fetchMaterias(),
+      fetchCategorias(),
+      fetchAutores(),
+    ]);
     if (!m) throw notFound();
-    return { materia: m };
+    return { materia: m, materias, categorias, autores };
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
       return { meta: [{ title: "Matéria não encontrada" }, { name: "robots", content: "noindex" }] };
     }
-    const m = loaderData.materia;
-    const cat = getCategoria(m.categoria);
-    const autor = getAutor(m.autor);
+    const { materia: m, categorias, autores } = loaderData;
+    const cat = getCategoria(categorias, m.categoria);
+    const autor = getAutor(autores, m.autor);
     return {
       meta: [
         { title: `${m.titulo} — Tá Sabendo?` },
@@ -55,10 +60,7 @@ export const Route = createFileRoute("/materia/$slug")({
             datePublished: m.publicadoEm,
             dateModified: m.atualizadoEm ?? m.publicadoEm,
             author: autor ? { "@type": "Person", name: autor.nome } : undefined,
-            publisher: {
-              "@type": "NewsMediaOrganization",
-              name: "Tá Sabendo?",
-            },
+            publisher: { "@type": "NewsMediaOrganization", name: "Tá Sabendo?" },
             articleSection: cat?.nome,
             keywords: m.tags,
           }),
@@ -104,12 +106,11 @@ const iconClassif = {
 } as const;
 
 function MateriaPage() {
-  const data = Route.useLoaderData() as { materia: Materia };
-  const m = data.materia;
-  const cat = getCategoria(m.categoria);
-  const autor = getAutor(m.autor);
+  const { materia: m, materias, categorias, autores } = Route.useLoaderData();
+  const cat = getCategoria(categorias, m.categoria);
+  const autor = getAutor(autores, m.autor);
   const relacionadas = materias.filter((x) => x.categoria === m.categoria && x.slug !== m.slug).slice(0, 3);
-  const Icon = iconClassif[m.classificacao as ClassificacaoEditorial];
+  const Icon = iconClassif[m.classificacao];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -170,33 +171,34 @@ function MateriaPage() {
               </figcaption>
             </figure>
 
-            {/* Resumo rápido */}
-            <aside className="mt-8 rounded-xl border-2 border-ink bg-surface-alt p-5">
-              <h2 className="font-display text-xl font-black inline-flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-primary" />
-                Resumo rápido
-              </h2>
-              <dl className="mt-3 grid gap-2 sm:grid-cols-2 text-sm">
-                {(
-                  [
-                    ["Quem", m.resumoRapido.quem],
-                    ["O que aconteceu", m.resumoRapido.oQue],
-                    ["Quando", m.resumoRapido.quando],
-                    ["Situação", m.resumoRapido.situacao],
-                    ["Fonte principal", m.resumoRapido.fontePrincipal],
-                    ["Última atualização", formatarData(m.atualizadoEm ?? m.publicadoEm)],
-                  ] as const
-                ).map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="text-[11px] font-bold uppercase tracking-widest text-ink-soft">{k}</dt>
-                    <dd className="text-ink">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </aside>
+            {m.resumoRapido && (
+              <aside className="mt-8 rounded-xl border-2 border-ink bg-surface-alt p-5">
+                <h2 className="font-display text-xl font-black inline-flex items-center gap-2">
+                  <span className="inline-block h-3 w-3 rounded-full bg-primary" />
+                  Resumo rápido
+                </h2>
+                <dl className="mt-3 grid gap-2 sm:grid-cols-2 text-sm">
+                  {(
+                    [
+                      ["Quem", m.resumoRapido.quem],
+                      ["O que aconteceu", m.resumoRapido.oQue],
+                      ["Quando", m.resumoRapido.quando],
+                      ["Situação", m.resumoRapido.situacao],
+                      ["Fonte principal", m.resumoRapido.fontePrincipal],
+                      ["Última atualização", formatarData(m.atualizadoEm ?? m.publicadoEm)],
+                    ] as const
+                  ).map(([k, v]) => (
+                    <div key={k}>
+                      <dt className="text-[11px] font-bold uppercase tracking-widest text-ink-soft">{k}</dt>
+                      <dd className="text-ink">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </aside>
+            )}
 
             <div className="prose-editorial mt-8 space-y-5 text-lg leading-relaxed text-ink">
-              {m.conteudo.map((p: string, i: number) => (
+              {m.conteudo.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -208,7 +210,6 @@ function MateriaPage() {
               </aside>
             )}
 
-            {/* Espaço reservado publicidade */}
             <div
               role="complementary"
               aria-label="Publicidade"
@@ -217,14 +218,16 @@ function MateriaPage() {
               Espaço publicitário — reservado (sem CLS)
             </div>
 
-            <section className="mt-8">
-              <h2 className="font-display text-xl font-black">Fontes consultadas</h2>
-              <ul className="mt-2 list-disc pl-5 text-sm text-ink-soft">
-                {m.fontes.map((f: { titulo: string; url?: string }, i: number) => (
-                  <li key={i}>{f.url ? <a href={f.url} className="text-primary hover:underline">{f.titulo}</a> : f.titulo}</li>
-                ))}
-              </ul>
-            </section>
+            {m.fontes.length > 0 && (
+              <section className="mt-8">
+                <h2 className="font-display text-xl font-black">Fontes consultadas</h2>
+                <ul className="mt-2 list-disc pl-5 text-sm text-ink-soft">
+                  {m.fontes.map((f, i) => (
+                    <li key={i}>{f.url ? <a href={f.url} className="text-primary hover:underline">{f.titulo}</a> : f.titulo}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {autor && (
               <section className="mt-10 flex items-start gap-4 rounded-xl border border-border bg-surface p-5">

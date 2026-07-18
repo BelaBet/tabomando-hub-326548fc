@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
-import { getCategoria, type Materia, formatarData } from "@/lib/demo-data";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategorias, getCategoria, type Materia, formatarData } from "@/lib/data";
 
 export function ArticleCard({ m, variant = "default" }: { m: Materia; variant?: "default" | "compact" | "hero" }) {
-  const cat = getCategoria(m.categoria);
+  const { data: categorias = [] } = useQuery({ queryKey: ["categorias"], queryFn: fetchCategorias });
+  const cat = getCategoria(categorias, m.categoria);
   if (variant === "hero") {
     return (
       <Link
