@@ -14,13 +14,225 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      autores: {
+        Row: {
+          bio: string
+          cargo: string
+          created_at: string
+          id: string
+          nome: string
+          slug: string
+          user_id: string | null
+        }
+        Insert: {
+          bio?: string
+          cargo?: string
+          created_at?: string
+          id?: string
+          nome: string
+          slug: string
+          user_id?: string | null
+        }
+        Update: {
+          bio?: string
+          cargo?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          slug?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      categorias: {
+        Row: {
+          cor: string | null
+          created_at: string
+          descricao: string
+          id: string
+          nome: string
+          slug: string
+        }
+        Insert: {
+          cor?: string | null
+          created_at?: string
+          descricao?: string
+          id?: string
+          nome: string
+          slug: string
+        }
+        Update: {
+          cor?: string | null
+          created_at?: string
+          descricao?: string
+          id?: string
+          nome?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      materias: {
+        Row: {
+          atualizado_em: string | null
+          autor_id: string | null
+          categoria_id: string | null
+          classificacao: string
+          conteudo: string[]
+          created_at: string
+          created_by: string | null
+          credito_imagem: string | null
+          destaque: boolean
+          fontes: Json
+          id: string
+          imagem: string | null
+          legenda_imagem: string | null
+          manchete: boolean
+          publicado_em: string | null
+          resumo: string | null
+          resumo_rapido: Json | null
+          slug: string
+          status: string
+          subtitulo: string | null
+          ta_sabendo_disso: string | null
+          tags: string[]
+          tempo_leitura: number
+          titulo: string
+          updated_at: string
+          visualizacoes: number
+        }
+        Insert: {
+          atualizado_em?: string | null
+          autor_id?: string | null
+          categoria_id?: string | null
+          classificacao?: string
+          conteudo?: string[]
+          created_at?: string
+          created_by?: string | null
+          credito_imagem?: string | null
+          destaque?: boolean
+          fontes?: Json
+          id?: string
+          imagem?: string | null
+          legenda_imagem?: string | null
+          manchete?: boolean
+          publicado_em?: string | null
+          resumo?: string | null
+          resumo_rapido?: Json | null
+          slug: string
+          status?: string
+          subtitulo?: string | null
+          ta_sabendo_disso?: string | null
+          tags?: string[]
+          tempo_leitura?: number
+          titulo: string
+          updated_at?: string
+          visualizacoes?: number
+        }
+        Update: {
+          atualizado_em?: string | null
+          autor_id?: string | null
+          categoria_id?: string | null
+          classificacao?: string
+          conteudo?: string[]
+          created_at?: string
+          created_by?: string | null
+          credito_imagem?: string | null
+          destaque?: boolean
+          fontes?: Json
+          id?: string
+          imagem?: string | null
+          legenda_imagem?: string | null
+          manchete?: boolean
+          publicado_em?: string | null
+          resumo?: string | null
+          resumo_rapido?: Json | null
+          slug?: string
+          status?: string
+          subtitulo?: string | null
+          ta_sabendo_disso?: string | null
+          tags?: string[]
+          tempo_leitura?: number
+          titulo?: string
+          updated_at?: string
+          visualizacoes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "materias_autor_id_fkey"
+            columns: ["autor_id"]
+            isOneToOne: false
+            referencedRelation: "autores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "materias_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      perfis: {
+        Row: {
+          created_at: string
+          descricao: string
+          fatos: string[]
+          id: string
+          imagem: string | null
+          nome: string
+          seguidores: string | null
+          slug: string
+          tipo: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          fatos?: string[]
+          id?: string
+          imagem?: string | null
+          nome: string
+          seguidores?: string | null
+          slug: string
+          tipo: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          fatos?: string[]
+          id?: string
+          imagem?: string | null
+          nome?: string
+          seguidores?: string | null
+          slug?: string
+          tipo?: string
+        }
+        Relationships: []
+      }
+      platform_roles: {
+        Row: {
+          created_at: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_platform_editor: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
