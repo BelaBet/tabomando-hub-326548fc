@@ -1,11 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase as typedSupabase } from "@/integrations/supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-const url = import.meta.env.VITE_SUPABASE_URL as string;
-const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
-
-export const supabase = createClient(url, key, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+// The generated Database types don't include the project tables yet
+// (categorias, autores, materias, perfis, platform_roles). Until a
+// migration adds them and regenerates the types, expose an untyped
+// client so the existing data-access code type-checks.
+export const supabase = typedSupabase as unknown as SupabaseClient;

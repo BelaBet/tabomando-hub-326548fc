@@ -50,7 +50,7 @@ function InstitucionalPage() {
           <h1 className="font-display text-4xl font-black">{page.titulo}</h1>
           <p className="mt-2 text-ink-soft">{page.descricao}</p>
           <div className="mt-6 space-y-4 text-ink leading-relaxed">
-            {page.corpo.map((p, i) => <p key={i}>{p}</p>)}
+            {page.corpo.map((p: string, i: number) => <p key={i}>{p}</p>)}
           </div>
         </article>
       </main>

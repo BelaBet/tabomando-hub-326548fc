@@ -84,7 +84,7 @@ export function MateriaForm({ existing }: { existing?: Materia }) {
         const { error } = await supabase.from("materias").insert({ ...payload, created_by: user?.id ?? null });
         if (error) throw error;
       }
-      navigate({ to: "/admin", search: (s) => s });
+      navigate({ to: "/admin", search: (s: any) => s });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao salvar.");
     } finally {

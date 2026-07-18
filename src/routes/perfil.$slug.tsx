@@ -65,8 +65,8 @@ function PerfilPage() {
   const tipo = perfil?.tipo ?? autor?.cargo ?? "Autor";
   const imagem = perfil?.imagem;
   const rel = perfil
-    ? materias.filter((m) => m.tags.includes(perfil.slug) || m.titulo.toLowerCase().includes(perfil.nome.toLowerCase().split(" ")[0]))
-    : materias.filter((m) => m.autor === autor!.slug);
+    ? materias.filter((m: any) => m.tags.includes(perfil.slug) || m.titulo.toLowerCase().includes(perfil.nome.toLowerCase().split(" ")[0]))
+    : materias.filter((m: any) => m.autor === autor!.slug);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -78,7 +78,7 @@ function PerfilPage() {
               <img src={imagem} alt={nome} className="h-32 w-32 rounded-full object-cover border-4 border-primary" />
             ) : (
               <div className="h-32 w-32 rounded-full bg-primary grid place-items-center text-4xl font-black">
-                {nome.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                {nome.split(" ").map((n: any) => n[0]).slice(0, 2).join("")}
               </div>
             )}
             <div className="flex-1 text-center md:text-left">
@@ -98,7 +98,7 @@ function PerfilPage() {
           <section className="container-editorial mt-10">
             <h2 className="font-display text-2xl font-black border-b-2 border-ink pb-2">Fatos rápidos</h2>
             <ul className="mt-4 grid gap-3 md:grid-cols-3">
-              {perfil.fatos.map((f, i) => (
+              {perfil.fatos.map((f: any, i: number) => (
                 <li key={i} className="rounded-xl border border-border bg-surface p-4 text-sm text-ink">
                   <span className="text-primary font-black">#{i + 1}</span> {f}
                 </li>
@@ -113,7 +113,7 @@ function PerfilPage() {
           </h2>
           {rel.length ? (
             <div className="mt-4 grid gap-6 md:grid-cols-3">
-              {rel.map((m) => <ArticleCard key={m.slug} m={m} />)}
+              {rel.map((m: any) => <ArticleCard key={m.slug} m={m} />)}
             </div>
           ) : (
             <p className="mt-4 text-ink-soft">Sem matérias relacionadas no momento.</p>

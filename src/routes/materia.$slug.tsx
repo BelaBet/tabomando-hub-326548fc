@@ -109,8 +109,8 @@ function MateriaPage() {
   const { materia: m, materias, categorias, autores } = Route.useLoaderData();
   const cat = getCategoria(categorias, m.categoria);
   const autor = getAutor(autores, m.autor);
-  const relacionadas = materias.filter((x) => x.categoria === m.categoria && x.slug !== m.slug).slice(0, 3);
-  const Icon = iconClassif[m.classificacao];
+  const relacionadas = materias.filter((x: any) => x.categoria === m.categoria && x.slug !== m.slug).slice(0, 3);
+  const Icon = iconClassif[m.classificacao as keyof typeof iconClassif];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -198,7 +198,7 @@ function MateriaPage() {
             )}
 
             <div className="prose-editorial mt-8 space-y-5 text-lg leading-relaxed text-ink">
-              {m.conteudo.map((p, i) => (
+              {m.conteudo.map((p: any, i: number) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -222,7 +222,7 @@ function MateriaPage() {
               <section className="mt-8">
                 <h2 className="font-display text-xl font-black">Fontes consultadas</h2>
                 <ul className="mt-2 list-disc pl-5 text-sm text-ink-soft">
-                  {m.fontes.map((f, i) => (
+                  {m.fontes.map((f: any, i: number) => (
                     <li key={i}>{f.url ? <a href={f.url} className="text-primary hover:underline">{f.titulo}</a> : f.titulo}</li>
                   ))}
                 </ul>
@@ -248,7 +248,7 @@ function MateriaPage() {
             <section className="rounded-xl border border-border bg-surface p-5">
               <h2 className="font-display text-lg font-black">Relacionadas</h2>
               <div className="mt-2">
-                {relacionadas.map((r) => <ArticleCard key={r.slug} m={r} variant="compact" />)}
+                {relacionadas.map((r: any) => <ArticleCard key={r.slug} m={r} variant="compact" />)}
               </div>
             </section>
             <div
@@ -264,7 +264,7 @@ function MateriaPage() {
         <section className="container-editorial mt-16">
           <h2 className="font-display text-2xl font-black border-b-2 border-ink pb-2">Continue lendo</h2>
           <div className="mt-4 grid gap-6 md:grid-cols-3">
-            {materias.filter((x) => x.slug !== m.slug).slice(0, 3).map((r) => <ArticleCard key={r.slug} m={r} />)}
+            {materias.filter((x: any) => x.slug !== m.slug).slice(0, 3).map((r: any) => <ArticleCard key={r.slug} m={r} />)}
           </div>
         </section>
       </main>

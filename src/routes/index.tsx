@@ -69,12 +69,12 @@ function Home() {
     );
   }
 
-  const manchete = materias.find((m) => m.manchete) ?? materias[0];
-  const destaques = materias.filter((m) => m.destaque && m.slug !== manchete.slug).slice(0, 3);
+  const manchete = materias.find((m: any) => m.manchete) ?? materias[0];
+  const destaques = materias.filter((m: any) => m.destaque && m.slug !== manchete.slug).slice(0, 3);
   const ultimas = ultimasMaterias(materias, 8);
   const top = maisLidas(materias, 5);
-  const curiosidades = materias.filter((m) => m.categoria === "curiosidades");
-  const fatoOuRumor = materias.filter((m) => ["Confirmado", "Relatado", "Rumor"].includes(m.classificacao)).slice(0, 3);
+  const curiosidades = materias.filter((m: any) => m.categoria === "curiosidades");
+  const fatoOuRumor = materias.filter((m: any) => ["Confirmado", "Relatado", "Rumor"].includes(m.classificacao)).slice(0, 3);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -85,7 +85,7 @@ function Home() {
         </section>
 
         <section className="container-editorial mt-10 grid gap-6 md:grid-cols-3">
-          {destaques.map((m) => <ArticleCard key={m.slug} m={m} />)}
+          {destaques.map((m: any) => <ArticleCard key={m.slug} m={m} />)}
         </section>
 
         <section className="container-editorial mt-12 grid gap-8 lg:grid-cols-[1fr_320px]">
@@ -143,7 +143,7 @@ function Home() {
           <section className="container-editorial mt-16">
             <SectionTitle title="Tá sabendo disso?" subtitle="Curiosidades rápidas e verificadas" icon={<Sparkles size={18} />} />
             <div className="mt-4 grid gap-4 md:grid-cols-3">
-              {curiosidades.map((c) => (
+              {curiosidades.map((c: any) => (
                 <Link
                   key={c.slug}
                   to="/materia/$slug"
@@ -167,7 +167,7 @@ function Home() {
           <section className="container-editorial mt-16">
             <SectionTitle title="Fato ou Rumor" subtitle="A gente separa o que é real do que é papo furado" />
             <div className="mt-4 grid gap-4 md:grid-cols-3">
-              {fatoOuRumor.map((m) => {
+              {fatoOuRumor.map((m: any) => {
                 const Icon = m.classificacao === "Confirmado" ? CheckCircle2 : m.classificacao === "Rumor" ? AlertTriangle : HelpCircle;
                 const color = m.classificacao === "Confirmado" ? "oklch(0.65 0.17 155)" : m.classificacao === "Rumor" ? "var(--brand-red)" : "oklch(0.75 0.15 80)";
                 return (
