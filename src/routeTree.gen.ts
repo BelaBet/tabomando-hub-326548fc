@@ -68,19 +68,19 @@ const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMateriasNovaRoute = AdminMateriasNovaRouteImport.update({
-  id: '/materias/nova',
-  path: '/materias/nova',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/materias/nova',
+  path: '/admin/materias/nova',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMateriasSlugRoute = AdminMateriasSlugRouteImport.update({
-  id: '/materias/$slug',
-  path: '/materias/$slug',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/materias/$slug',
+  path: '/admin/materias/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -176,11 +176,14 @@ export interface RootRouteChildren {
   BuscaRoute: typeof BuscaRoute
   NewsSitemapDotxmlRoute: typeof NewsSitemapDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
   InstitucionalPageRoute: typeof InstitucionalPageRoute
   MateriaSlugRoute: typeof MateriaSlugRoute
   PerfilSlugRoute: typeof PerfilSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminMateriasSlugRoute: typeof AdminMateriasSlugRoute
+  AdminMateriasNovaRoute: typeof AdminMateriasNovaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -250,24 +253,24 @@ declare module '@tanstack/react-router' {
     }
     '/admin/login': {
       id: '/admin/login'
-      path: '/login'
+      path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/materias/nova': {
       id: '/admin/materias/nova'
-      path: '/materias/nova'
+      path: '/admin/materias/nova'
       fullPath: '/admin/materias/nova'
       preLoaderRoute: typeof AdminMateriasNovaRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/materias/$slug': {
       id: '/admin/materias/$slug'
-      path: '/materias/$slug'
+      path: '/admin/materias/$slug'
       fullPath: '/admin/materias/$slug'
       preLoaderRoute: typeof AdminMateriasSlugRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -277,22 +280,15 @@ const rootRouteChildren: RootRouteChildren = {
   BuscaRoute: BuscaRoute,
   NewsSitemapDotxmlRoute: NewsSitemapDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminLoginRoute: AdminLoginRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
   InstitucionalPageRoute: InstitucionalPageRoute,
   MateriaSlugRoute: MateriaSlugRoute,
   PerfilSlugRoute: PerfilSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminMateriasSlugRoute: AdminMateriasSlugRoute,
+  AdminMateriasNovaRoute: AdminMateriasNovaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
