@@ -3,6 +3,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ArticleCard } from "@/components/site/ArticleCard";
 import { fetchPerfilBySlug, fetchAutores, fetchMaterias, getAutor } from "@/lib/data";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/perfil/$slug")({
   loader: async ({ params }) => {
