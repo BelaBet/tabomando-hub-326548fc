@@ -1,0 +1,26 @@
+{
+  "name": "Tá Sabendo? — A fofoca que nunca dorme",
+  "short_name": "Tá Sabendo?",
+  "description": "Notícias, bastidores e curiosidades sobre famosos, influenciadores, empresas e tecnologia.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
