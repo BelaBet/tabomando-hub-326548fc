@@ -4,6 +4,7 @@ import { Footer } from "@/components/site/Footer";
 import { ArticleCard } from "@/components/site/ArticleCard";
 import { fetchCategorias, fetchMaterias, getCategoria, materiasPorCategoria } from "@/lib/data";
 import { ChevronRight } from "lucide-react";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/categoria/$slug")({
   loader: async ({ params }) => {
