@@ -14,6 +14,7 @@ import {
 } from "@/lib/data";
 import { Link } from "@tanstack/react-router";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles } from "lucide-react";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -89,7 +90,11 @@ function Home() {
           <ArticleCard m={manchete} variant="hero" />
         </section>
 
-        <section className="container-editorial mt-10 grid gap-6 md:grid-cols-3">
+        <section className="container-editorial">
+          <AdSlot format="leaderboard" label="Publicidade" />
+        </section>
+
+        <section className="container-editorial mt-4 grid gap-6 md:grid-cols-3">
           {destaques.map((m: any) => <ArticleCard key={m.slug} m={m} />)}
         </section>
 
@@ -141,6 +146,7 @@ function Home() {
                 ))}
               </ol>
             </section>
+            <AdSlot format="rectangle" label="Publicidade" className="my-0" />
           </aside>
         </section>
 

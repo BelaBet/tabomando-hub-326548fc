@@ -12,6 +12,7 @@ import {
   formatarData,
 } from "@/lib/data";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles, Share2, ChevronRight } from "lucide-react";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/materia/$slug")({
   loader: async ({ params }) => {
@@ -210,13 +211,8 @@ function MateriaPage() {
               </aside>
             )}
 
-            <div
-              role="complementary"
-              aria-label="Publicidade"
-              className="my-8 flex h-32 items-center justify-center rounded-md border border-dashed border-border bg-surface-alt text-xs uppercase tracking-widest text-ink-soft"
-            >
-              Espaço publicitário — reservado (sem CLS)
-            </div>
+            <AdSlot format="in-article" label="Publicidade" />
+
 
             {m.fontes.length > 0 && (
               <section className="mt-8">
@@ -251,13 +247,8 @@ function MateriaPage() {
                 {relacionadas.map((r: any) => <ArticleCard key={r.slug} m={r} variant="compact" />)}
               </div>
             </section>
-            <div
-              role="complementary"
-              aria-label="Publicidade"
-              className="flex h-64 items-center justify-center rounded-md border border-dashed border-border bg-surface-alt text-xs uppercase tracking-widest text-ink-soft"
-            >
-              Publicidade
-            </div>
+            <AdSlot format="halfpage" label="Publicidade" className="my-0" />
+
           </aside>
         </article>
 
