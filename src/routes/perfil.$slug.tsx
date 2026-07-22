@@ -3,6 +3,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ArticleCard } from "@/components/site/ArticleCard";
 import { fetchPerfilBySlug, fetchAutores, fetchMaterias, getAutor } from "@/lib/data";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/perfil/$slug")({
   loader: async ({ params }) => {
@@ -93,6 +94,9 @@ function PerfilPage() {
             </div>
           </div>
         </section>
+        <div className="container-editorial mt-6">
+          <AdSlot format="leaderboard" label="Publicidade" className="my-2" />
+        </div>
 
         {perfil && perfil.fatos.length > 0 && (
           <section className="container-editorial mt-10">
@@ -118,6 +122,10 @@ function PerfilPage() {
           ) : (
             <p className="mt-4 text-ink-soft">Sem matérias relacionadas no momento.</p>
           )}
+        </section>
+
+        <section className="container-editorial mt-12">
+          <AdSlot format="in-article" label="Publicidade" />
         </section>
       </main>
       <Footer />
