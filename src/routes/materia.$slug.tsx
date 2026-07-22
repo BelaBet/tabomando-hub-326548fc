@@ -12,6 +12,7 @@ import {
   formatarData,
 } from "@/lib/data";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles, Share2, ChevronRight } from "lucide-react";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/materia/$slug")({
   loader: async ({ params }) => {
