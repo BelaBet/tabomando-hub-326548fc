@@ -247,13 +247,8 @@ function MateriaPage() {
                 {relacionadas.map((r: any) => <ArticleCard key={r.slug} m={r} variant="compact" />)}
               </div>
             </section>
-            <div
-              role="complementary"
-              aria-label="Publicidade"
-              className="flex h-64 items-center justify-center rounded-md border border-dashed border-border bg-surface-alt text-xs uppercase tracking-widest text-ink-soft"
-            >
-              Publicidade
-            </div>
+            <AdSlot format="halfpage" label="Publicidade" className="my-0" />
+
           </aside>
         </article>
 
