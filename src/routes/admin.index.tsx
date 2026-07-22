@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { fetchAllMaterias, fetchAutores, fetchCategorias } from "@/lib/data";
 import { useAdminAuth } from "@/hooks/use-admin-auth";
 import {
-  LayoutDashboard, FileText, Users, Tag, LogOut, Trash2, Pencil,
+  LayoutDashboard, FileText, Users, Tag, LogOut, Trash2, Pencil, BarChart3,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
@@ -128,6 +128,12 @@ function AdminDashboard() {
       <div className="flex">
         <aside className="hidden md:block w-60 shrink-0 border-r border-border bg-surface min-h-[calc(100vh-56px)]">
           <nav className="p-3 space-y-1">
+            <Link
+              to="/admin/pesquisa"
+              className="mb-3 flex w-full items-center gap-2 rounded-md border border-violet-200 bg-violet-50 px-3 py-2 text-sm font-semibold text-violet-800 transition hover:bg-violet-100"
+            >
+              <BarChart3 size={16} /> Respostas da pesquisa
+            </Link>
             {menu.map((m) => {
               const key = m.label === "Visão geral" ? "overview" : m.label === "Matérias" ? "materias" : m.label === "Autores" ? "autores" : "categorias";
               return (

@@ -23,6 +23,7 @@ const cols = [
     links: [
       { label: "Anuncie", href: "/institucional/anuncie" },
       { label: "Trabalhe Conosco", href: "/institucional/carreiras" },
+      { label: "Pesquisa de carreira", href: "/pesquisa-transicao-carreira" },
       { label: "Newsletter", href: "#newsletter" },
       { label: "Painel Editorial", href: "/admin/login" },
     ],
