@@ -61,17 +61,26 @@ function CategoriaPage() {
           <p className="mt-2 max-w-2xl text-ink-soft">{cat.descricao}</p>
         </header>
 
+        <section className="container-editorial mt-6">
+          <AdSlot format="leaderboard" label="Publicidade" className="my-4" />
+        </section>
+
         {lista.length === 0 ? (
           <div className="container-editorial py-16 text-center text-ink-soft">
             Ainda não temos matérias publicadas nesta editoria.
           </div>
         ) : (
-          <section className="container-editorial mt-8 grid gap-8 lg:grid-cols-[1fr_1fr]">
-            {primeira && <ArticleCard m={primeira} variant="hero" />}
-            <div className="grid gap-6 sm:grid-cols-2">
-              {resto.map((m: any) => <ArticleCard key={m.slug} m={m} />)}
-            </div>
-          </section>
+          <>
+            <section className="container-editorial mt-2 grid gap-8 lg:grid-cols-[1fr_1fr]">
+              {primeira && <ArticleCard m={primeira} variant="hero" />}
+              <div className="grid gap-6 sm:grid-cols-2">
+                {resto.map((m: any) => <ArticleCard key={m.slug} m={m} />)}
+              </div>
+            </section>
+            <section className="container-editorial">
+              <AdSlot format="in-article" label="Publicidade" />
+            </section>
+          </>
         )}
       </main>
       <Footer />
