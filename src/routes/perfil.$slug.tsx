@@ -94,6 +94,9 @@ function PerfilPage() {
             </div>
           </div>
         </section>
+        <div className="container-editorial mt-6">
+          <AdSlot format="leaderboard" label="Publicidade" className="my-2" />
+        </div>
 
         {perfil && perfil.fatos.length > 0 && (
           <section className="container-editorial mt-10">
