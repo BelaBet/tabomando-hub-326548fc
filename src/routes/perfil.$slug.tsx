@@ -123,6 +123,10 @@ function PerfilPage() {
             <p className="mt-4 text-ink-soft">Sem matérias relacionadas no momento.</p>
           )}
         </section>
+
+        <section className="container-editorial mt-12">
+          <AdSlot format="in-article" label="Publicidade" />
+        </section>
       </main>
       <Footer />
     </div>
