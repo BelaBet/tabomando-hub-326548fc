@@ -90,7 +90,11 @@ function Home() {
           <ArticleCard m={manchete} variant="hero" />
         </section>
 
-        <section className="container-editorial mt-10 grid gap-6 md:grid-cols-3">
+        <section className="container-editorial">
+          <AdSlot format="leaderboard" label="Publicidade" />
+        </section>
+
+        <section className="container-editorial mt-4 grid gap-6 md:grid-cols-3">
           {destaques.map((m: any) => <ArticleCard key={m.slug} m={m} />)}
         </section>
 
