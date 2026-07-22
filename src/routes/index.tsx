@@ -14,6 +14,7 @@ import {
 } from "@/lib/data";
 import { Link } from "@tanstack/react-router";
 import { CheckCircle2, HelpCircle, AlertTriangle, Sparkles } from "lucide-react";
+import { AdSlot } from "@/components/site/AdSlot";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
