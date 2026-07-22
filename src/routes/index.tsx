@@ -146,6 +146,7 @@ function Home() {
                 ))}
               </ol>
             </section>
+            <AdSlot format="rectangle" label="Publicidade" className="my-0" />
           </aside>
         </section>
 
