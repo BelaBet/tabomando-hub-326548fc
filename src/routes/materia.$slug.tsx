@@ -211,13 +211,8 @@ function MateriaPage() {
               </aside>
             )}
 
-            <div
-              role="complementary"
-              aria-label="Publicidade"
-              className="my-8 flex h-32 items-center justify-center rounded-md border border-dashed border-border bg-surface-alt text-xs uppercase tracking-widest text-ink-soft"
-            >
-              Espaço publicitário — reservado (sem CLS)
-            </div>
+            <AdSlot format="in-article" label="Publicidade" />
+
 
             {m.fontes.length > 0 && (
               <section className="mt-8">
